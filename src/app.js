@@ -76,7 +76,9 @@ const init = async () => {
       if (line === '.exit') {
         onClose();
       }
-      output.write(`You are currently in ${process.cwd()}\n`);
+      if (line !== '.exit') {
+        output.write(`You are currently in ${process.cwd()}\n`);
+      }
     } else {
       output.write(`Invalid input\n`);
     }
