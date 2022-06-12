@@ -7,7 +7,8 @@ const systemInfo = async arg => {
       stdout.write(os.EOL);
     }
     if (arg === 'cpus') {
-      stdout.write(os.cpus().length.toString());
+      let info = os.cpus().map(cpu => cpu.model.trim() + ' ' + parseInt(cpu.speed) / 1000 + ' GHz');
+      console.log([`Amount: ${os.cpus().length}`, ...info].join('\n'));
     }
     if (arg === 'homedir') {
       stdout.write(os.homedir().toString());

@@ -11,6 +11,11 @@ import hashFile from './modules/hashFile.mjs';
 import compressFile from './modules/compressFile.mjs';
 import decompressFile from './modules/compressFile.mjs';
 import readFile from './modules/readFile.mjs';
+import createFile from './modules/createFile.mjs';
+import renameFile from './modules/renameFile.mjs';
+import deleteFile from './modules/deleteFile.mjs';
+import copyFiles from './modules/copyFiles.mjs';
+import moveFile from './modules/moveFile.mjs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const folderPath = path.join(__dirname, 'files');
@@ -23,17 +28,11 @@ const init = async () => {
   let dir = homedir();
   process.chdir(dir);
   const isCmdValid = (cmd) => {
-    return /^cd\s|^cat\s|^compress\s|^decompress\s|^hash\s|^ls$|^up$|^.exit$|^os\s/.test(cmd);
+    return /^cd\s|^cat\s|^add\s|^rn\s|^rm\s|^cp\s|^mv\s|^compress\s|^decompress\s|^hash\s|^ls$|^up$|^.exit$|^os\s/.test(cmd);
   }
-  // const files = await (async () => {
-  //   const files = await fs.promises.readdir(folderPath, { withFileTypes: true });
-  //   return files.map(file => file)
-  // });
-  // console.log(files)
   output.write(`Welcome to the File Manager, ${process.env.username}!\n`);
   output.write(`You are currently in ${process.cwd()}\n`);
   rl.on('line', async line => {
-    // console.log(`Received: ${line}`);
     if (isCmdValid(line)) {
       if (/^up$/.test(line)) {
         changeDirectory(dir, '..');
@@ -43,9 +42,23 @@ const init = async () => {
       }
       if (/^cat\s/.test(line)) {
         await readFile(line.split(' ')[1]);
-        // output.write(`\n`);
       }
-      if (line === 'ls') {
+      if (/^add\s/.test(line)) {
+        await createFile(line.split(' ')[1]);
+      }
+      if (/^rn\s/.test(line)) {
+        await renameFile(line.split(' ')[1], line.split(' ')[2]);
+      }
+      if (/^rm\s/.test(line)) {
+        await deleteFile(line.split(' ')[1]);
+      }
+      if (/^cp\s/.test(line)) {
+        await copyFiles(line.split(' ')[1], line.split(' ')[2]);
+      }
+      if (/^mv\s/.test(line)) {
+        await moveFile(line.split(' ')[1], line.split(' ')[2]);
+      }
+      if (/^ls$/.test(line)) {
         fileList(dir);
       }
       if (/^hash\s/.test(line)) {
