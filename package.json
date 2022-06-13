@@ -1,0 +1,19 @@
+{
+  "name": "file-manager",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.js -- --username=User",
+    "start-dev": "nodemon src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": ["nodejs"],
+  "author": "loktysh",
+  "license": "MIT",
+  "homepage": ""
+}
